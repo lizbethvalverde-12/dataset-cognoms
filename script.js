@@ -1,15 +1,32 @@
-fetch("https://opendata-ajuntament.barcelona.cat/resources/bcn/EstadisticaPadro/pad/2025/2025_pad_m_cognom.json  ")
-.then(res => res.json())
-.then(data => {
-    let tabla = document.getElementById("tabla");
+document.addEventListener("DOMContentLoaded", function () {
 
-    data.forEach(item => {
-        let fila = document.createElement("tr");
+const url = "https://opendata-ajuntament.barcelona.cat/resources/bcn/EstadisticaPadro/pad/2025/2025_pad_m_cognom.json";
 
-        let celda1 = document.createElement("td");
-        celda1.textContent = item.nom;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
 
-        fila.appendChild(celda1);
-        tabla.appendChild(fila);
-    });
+            const tbody = document.querySelector("#tabla tbody");
+
+            data.forEach(item => {
+
+                const fila = document.createElement("tr");
+
+                const celdaCognom = document.createElement("td");
+                celdaCognom.textContent = item.COGNOM;  
+
+                const celdaNumero = document.createElement("td");
+                celdaNumero.textContent = item.Valor;    
+
+                fila.appendChild(celdaCognom);
+                fila.appendChild(celdaNumero);
+
+                tbody.appendChild(fila);
+            });
+
+        })
+        .catch(error => {
+            console.error("Error cargando datos:", error);
+        });
+
 });
